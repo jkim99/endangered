@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ header }}</title>
+</head>
+<body>
+<h1>{{ header }}</h1>
+
+<ul>
+{% for s in spec %}
+    <li>{% include "endangered1/species.html" with species=s %}</li>
+{% endfor %}
+</ul>
+</body>
+</html>

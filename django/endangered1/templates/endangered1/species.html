@@ -1,0 +1,19 @@
+<h3>{{ species.common_name }} ({{ species.sci_name }})</h3>
+
+Population: {{ species.population }}<br>
+Status: {{ species.status }}<br>
+Habitat(s): {{ species.habitats }}<br>
+
+<h4>More Details</h4>
+<ul>
+{% for e in species.more %}
+    <li><a href="{{ e }}">{{ e }}</a></li>
+{% endfor %}
+</ul>
+
+<h4>Enviromental Details</h4>
+<ul>
+{% for e in species.env %}
+    <li><a href="{{ e }}">{{ e }}</a></li>
+{% endfor %}
+</ul>
