@@ -5,11 +5,9 @@ Status: {{ species.status }}<br>
 Habitat(s): {{ species.habitats }}<br>
 
 <h4>More Details</h4>
-{{ species.more.0 }}
 <ul>
 {% for m in species.more %}
     <li><a href="{{ m }}">{{ m }}</a></li>
-{% endfor %}
 </ul>
 
 <h4>Enviromental Details</h4>
