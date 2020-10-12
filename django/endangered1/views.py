@@ -1,3 +1,6 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
 import requests
 from collections import OrderedDict
 import json
@@ -16,10 +19,12 @@ INFO_PARSE_KEY = {'Status': 'status',
 
 
 class Species(object):
+    more = []
+    env = []
+    population = 'Unknown'
+    habitats = 'Unknown'
+
     def __init__(self, *args, **kwargs):
-        self.more = []
-        self.env = []
-        self.habitats = None
         self.construct(*args, **kwargs)
 
     def construct(self,
@@ -142,8 +147,8 @@ def get_more(species):
         species[spec].update(new_info)
         species[spec].update({'more': url})
 
-def main():
-    print('This program uses info from www.worldwildlife.org')
+def index(request):
+    context = {'header': 'This program uses info from www.worldwildlife.org'}
     species = {}
     r = requests.get(url='http://www.worldwildlife.org/species/directory?direction=desc&sort=extinction_status')
     html_data = parse_all_species(r.text)
@@ -159,19 +164,19 @@ def main():
     # print('Finding more data on duckduckgo...')
     # for spec in species.values():
     #     spec.update(duckduckgo(species=spec))
-    for spec in species.values():
-        print(spec.__dict__)
 
-    for spec in species.values():
-        if spec.habitats:
-            for url in search(spec.habitats, stop=3):
-                spec.env.append(url)
+    # for spec in species.values():
+    #     if spec.habitats:
+    #         for url in search(spec.habitats, stop=3):
+    #             spec.env.append(url)
         # else:
         #     r = requests.get(url='http://duckduckgo.com/api/{}+habitats'.format(spec.common_name.replace(' ', '+')))
         #     for url in search(r.json['answer'], stop=3):
         #         spec.env.append(url)
-    for spec in species.values():
-        print(spec.__dict__)
 
-if __name__ == '__main__':
-    main()
+    c = []
+    for key, spec in species.items():
+        c.append(spec.__dict__)
+    context.update({'spec': c})
+
+    return render(request, 'endangered1/index.html', context)
